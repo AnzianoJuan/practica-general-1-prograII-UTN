@@ -9,13 +9,14 @@ namespace ConsoleApp1
 {
     internal class Program
     {
+        const int cantidadTotalDeTrabajadores = 60;
+        static int contadorDeTrabadores = 0;
+
         static void Main(string[] args)
         {
 
 
             int opcion = 0;
-            const int cantidadTotalDeTrabajadores = 2;
-
 
             string[] nombres = new string[cantidadTotalDeTrabajadores];
             long[] cuils = new long[cantidadTotalDeTrabajadores];
@@ -23,20 +24,23 @@ namespace ConsoleApp1
             float[] sueldoMensuales = new float[cantidadTotalDeTrabajadores];
             int[] puestos = new int[cantidadTotalDeTrabajadores];
 
-            while(opcion != 5)
+            while (opcion != 5)
             {
                 opcion = Menu(opcion);
 
-                if(opcion == 1)
+                if (opcion == 1)
                 {
                     CargaDeEmpleados(nombres, cuils, nacimientos, sueldoMensuales, puestos);
-                }else if(opcion == 2)
+                }
+                else if (opcion == 2)
                 {
                     listadoDeobreros(nombres, cuils, nacimientos, sueldoMensuales, puestos);
-                }else if(opcion == 3)
+                }
+                else if (opcion == 3)
                 {
                     listadoDeAdministrartivos(nombres, cuils, nacimientos, sueldoMensuales, puestos);
-                }else if(opcion == 4)
+                }
+                else if (opcion == 4)
                 {
                     Console.WriteLine();
 
@@ -59,7 +63,7 @@ namespace ConsoleApp1
 
             int edad;
 
-            for(int i = 0; i < 2; i++)
+            for (int i = 0; i < cantidadTotalDeTrabajadores; i++)
             {
                 if (obreros[i] == 1)
                 {
@@ -83,7 +87,7 @@ namespace ConsoleApp1
 
             int edad;
 
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < cantidadTotalDeTrabajadores; i++)
             {
                 if (admins[i] == 2)
                 {
@@ -99,23 +103,23 @@ namespace ConsoleApp1
 
         }
 
-        static float sueldosTotales(float[] sueldos) 
+        static float sueldosTotales(float[] sueldos)
         {
             float total = 0;
 
-            for(int i = 0; i < 2; i++)
+            for (int i = 0; i < cantidadTotalDeTrabajadores; i++)
             {
                 total += sueldos[i];
             }
 
             return total;
-        
+
         }
 
 
 
 
-        static void CargaDeEmpleados(string[] nombreCompleto , long[] cuil, DateTime[] fechaNacimiento, float[] sueldoMensual, int[] puesto) 
+        static void CargaDeEmpleados(string[] nombreCompleto, long[] cuil, DateTime[] fechaNacimiento, float[] sueldoMensual, int[] puesto)
         {
 
             //            Para la carga de empleados se debe pedir por teclado el nombre completo, cuil, fecha de
@@ -133,67 +137,79 @@ namespace ConsoleApp1
             Console.WriteLine("------ INGRESO AL APARTADO PARA INGRESAR EMPLEADOS -----");
 
             Console.WriteLine();
+            int i = 0;
+            string continua = "S";
 
 
-            for(int i = 0; i < 2; i++)
+            while (contadorDeTrabadores < cantidadTotalDeTrabajadores && continua.ToUpper() == "S")
             {
+
                 Console.WriteLine();
 
-                Console.WriteLine($"TRABAJADOR NRO :{posicionDeTrabajador}");
+                Console.WriteLine($"TRABAJADOR NRO :{contadorDeTrabadores + 1}");
                 posicionDeTrabajador++;
 
                 Console.Write("INGRESE NOMBRE : ");
                 cadena = Console.ReadLine();
 
-                nombreCompleto[i] = cadena;
+                nombreCompleto[contadorDeTrabadores] = cadena;
 
                 Console.Write("INGRESE CUIL : ");
                 cadena = Console.ReadLine();
-                while (!long.TryParse(cadena,out cuilDePersona) || cuilDePersona > 9223372036854775807 || cuilDePersona < -9223372036854775808) 
-                { 
+                while (!long.TryParse(cadena, out cuilDePersona) || cuilDePersona > 9223372036854775807 || cuilDePersona < -9223372036854775808)
+                {
                     Console.Write("ingresa nuevamente con el dato correcto : ");
                     cadena = Console.ReadLine();
                 }
 
-                cuil[i] = cuilDePersona;
+                cuil[contadorDeTrabadores] = cuilDePersona;
 
                 Console.Write("INGRESE FECHA DE NACIMIENTO : (xx/xx/xxxx) o con espacios xx xx xxxx : ");
                 cadena = Console.ReadLine();
 
-                while(!DateTime.TryParse(cadena,out nacimientoPorPersona) || nacimientoPorPersona.Year > 9999 || nacimientoPorPersona.Month > 12 || nacimientoPorPersona.Day > 31)
+                while (!DateTime.TryParse(cadena, out nacimientoPorPersona) || nacimientoPorPersona.Year > 9999 || nacimientoPorPersona.Month > 12 || nacimientoPorPersona.Day > 31)
                 {
                     Console.Write("ingresa nuevamente con el formato correcto : ");
                     cadena = Console.ReadLine();
                 }
 
-                fechaNacimiento[i] = nacimientoPorPersona;
+                fechaNacimiento[contadorDeTrabadores] = nacimientoPorPersona;
 
 
                 Console.Write("INGRESE SUELDO : ");
                 cadena = Console.ReadLine();
 
-                while(!float.TryParse(cadena,out sueldo))
+                while (!float.TryParse(cadena, out sueldo))
                 {
                     Console.Write("ingresa el formato del sueldo correctamente : ");
                     cadena = Console.ReadLine();
                 }
 
-                sueldoMensual[i] = sueldo; 
+                sueldoMensual[contadorDeTrabadores] = sueldo;
 
                 Console.Write("INGRESA PUESTO 1 = OBRERO | 2 = ADMINISTRADOR  : ");
                 cadena = Console.ReadLine();
-                while(!int.TryParse(cadena, out puestoLaboral) || puestoLaboral < 1 || puestoLaboral > 2)
+                while (!int.TryParse(cadena, out puestoLaboral) || puestoLaboral < 1 || puestoLaboral > 2)
                 {
                     Console.Write("INGRESA PUESTO CORRECTAMENTE !!! 1 = OBRERO | 2 = ADMINISTRADOR  :");
                     cadena = Console.ReadLine();
                 }
 
-                puesto[i] = puestoLaboral;
+                puesto[contadorDeTrabadores] = puestoLaboral;
 
+                Console.WriteLine("CARGADO CORRECTAMENTE...");
+
+                Console.Write("DESEA SEGUIR CARGANDO (S/N) : ");
+                continua = Console.ReadLine();
+
+                while(continua.ToUpper() != "S" && continua.ToUpper() != "N")
+                {
+                    Console.Write("INGRESE CORRECTAMENTE : ");
+                    continua = Console.ReadLine();
+                }
+
+                contadorDeTrabadores++;
             }
-
-           
-
 
         }
 
